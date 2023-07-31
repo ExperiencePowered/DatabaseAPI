@@ -7,6 +7,14 @@ plugins {
 group = 'net.jakush'
 version = '1.0-SNAPSHOT'
 
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
 repositories {
     mavenCentral()
     maven {
@@ -42,16 +50,7 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks {
     shadowJar {
-        archiveClassifier("")
         minimize()
-    }
-}
-
-publishing {
-    publications {
-        shadow(MavenPublication) {
-            from components.shadow
-        }
     }
 }
 
