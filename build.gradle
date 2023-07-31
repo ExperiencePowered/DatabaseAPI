@@ -2,7 +2,6 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.4.0'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
-    id 'maven-publish'
 }
 
 artifact = 'databaseapi'
@@ -14,7 +13,8 @@ publishing {
         maven(MavenPublication) {
             groupId = group
             artifactId = artifact
-            version = version
+            version = '1.0-SNAPSHOT'
+
             from components.java
         }
     }
@@ -34,7 +34,6 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
-    compileOnly "com.zaxxer:HikariCP:5.0.1"
 }
 
 def targetJavaVersion = 17
