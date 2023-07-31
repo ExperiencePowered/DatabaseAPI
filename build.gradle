@@ -29,7 +29,7 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
-    implementation "com.zaxxer:HikariCP:5.0.1"
+    compileOnly "com.zaxxer:HikariCP:5.0.1"
 }
 
 def targetJavaVersion = 17
@@ -45,12 +45,6 @@ java {
 tasks.withType(JavaCompile).configureEach {
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release = targetJavaVersion
-    }
-}
-
-tasks {
-    shadowJar {
-        minimize()
     }
 }
 
