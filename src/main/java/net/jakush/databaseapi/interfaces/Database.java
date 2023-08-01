@@ -21,7 +21,7 @@ public abstract class Database {
      * @return If hikari isn't connected, will return false; else true wll be returned
      */
     public boolean isConnected() {
-        return hikari.isClosed();
+        return !hikari.isClosed();
     }
 
     /**
