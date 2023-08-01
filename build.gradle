@@ -1,11 +1,9 @@
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.4.0'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'maven-publish'
     id 'java'
 }
 
-artifact = 'databaseapi'
 group = 'net.jakush'
 version = '1.0-SNAPSHOT'
 
@@ -13,7 +11,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             groupId = group
-            artifactId = artifact
+            artifactId = 'databaseapi'
             version = '1.0-SNAPSHOT'
 
             from components.java
