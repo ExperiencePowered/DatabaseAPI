@@ -1,7 +1,11 @@
 package net.jakush.databaseapi.impl;
 
 import net.jakush.databaseapi.enums.DatabaseType;
+import net.jakush.databaseapi.enums.TableFlags;
 import net.jakush.databaseapi.interfaces.Database;
+import net.jakush.databaseapi.interfaces.DatabaseProperty;
+
+import java.util.List;
 
 /**
  * This file is a part of DatabaseAPI <br>
@@ -25,5 +29,10 @@ public final class Unknown extends Database {
     @Override
     public void close() {
         throw new UnsupportedOperationException("This database type is not implemented.");
+    }
+
+    @Override
+    public boolean createTable(String table, List<TableFlags> flags, List<DatabaseProperty> properties) {
+        return isConnected();
     }
 }

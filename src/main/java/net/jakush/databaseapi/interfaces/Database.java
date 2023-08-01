@@ -1,6 +1,9 @@
 package net.jakush.databaseapi.interfaces;
 
 import com.zaxxer.hikari.HikariDataSource;
+import net.jakush.databaseapi.enums.TableFlags;
+
+import java.util.List;
 
 /**
  * This file is a part of DatabaseAPI <br>
@@ -32,4 +35,6 @@ public abstract class Database {
             hikari.close();
         }
     }
+
+    public abstract boolean createTable(String table, List<TableFlags> flags, List<DatabaseProperty> properties);
 }
