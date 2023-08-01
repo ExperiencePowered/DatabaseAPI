@@ -4,7 +4,6 @@ import net.jakush.databaseapi.enums.DatabaseType;
 import net.jakush.databaseapi.interfaces.Database;
 import net.jakush.databaseapi.interfaces.DatabaseData;
 import net.jakush.databaseapi.utils.HikariSetupUtil;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 /**
