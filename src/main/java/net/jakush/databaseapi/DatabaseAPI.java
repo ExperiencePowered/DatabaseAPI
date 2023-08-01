@@ -2,7 +2,7 @@ package net.jakush.databaseapi;
 
 import net.jakush.databaseapi.enums.DatabaseType;
 import net.jakush.databaseapi.interfaces.Database;
-import net.jakush.databaseapi.interfaces.DatabaseData;
+import net.jakush.databaseapi.interfaces.DatabaseCredentials;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,12 +20,12 @@ import java.lang.reflect.InvocationTargetException;
  */
 public final class DatabaseAPI {
 
-    public static Database loadInstance(final @Nullable JavaPlugin plugin, final @NotNull DatabaseType type, final @NotNull DatabaseData data) {
+    public static Database loadInstance(final @Nullable JavaPlugin plugin, final @NotNull DatabaseType type, final @NotNull DatabaseCredentials data) {
         final Class<? extends Database> clazz = type.getClazz();
         Constructor<?> constructor;
         Database database;
         try {
-            constructor = clazz.getDeclaredConstructor(DatabaseData.class);
+            constructor = clazz.getDeclaredConstructor(DatabaseCredentials.class);
             database = (Database) constructor.newInstance(data);
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);

@@ -2,7 +2,7 @@ package net.jakush.databaseapi.impl;
 
 import net.jakush.databaseapi.enums.DatabaseType;
 import net.jakush.databaseapi.interfaces.Database;
-import net.jakush.databaseapi.interfaces.DatabaseData;
+import net.jakush.databaseapi.interfaces.DatabaseCredentials;
 import net.jakush.databaseapi.utils.HikariSetupUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class MySQL extends Database {
 
-    public MySQL(final @NotNull DatabaseData data) {
+    public MySQL(final @NotNull DatabaseCredentials data) {
         HikariSetupUtil.setupHikariData(hikari, data);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

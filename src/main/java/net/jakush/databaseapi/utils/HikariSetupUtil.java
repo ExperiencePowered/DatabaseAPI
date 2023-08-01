@@ -1,7 +1,7 @@
 package net.jakush.databaseapi.utils;
 
 import com.zaxxer.hikari.HikariDataSource;
-import net.jakush.databaseapi.interfaces.DatabaseData;
+import net.jakush.databaseapi.interfaces.DatabaseCredentials;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -17,7 +17,7 @@ public class HikariSetupUtil {
      * @param hikari Hikari data source on which will be properties applied
      * @param data Database data which contains all important information like password, host
      */
-    public static void setupHikariData(final @NotNull HikariDataSource hikari, final @NotNull DatabaseData data) {
+    public static void setupHikariData(final @NotNull HikariDataSource hikari, final @NotNull DatabaseCredentials data) {
         hikari.addDataSourceProperty("serverName", data.getHost());
         hikari.addDataSourceProperty("port", data.getPort());
         hikari.addDataSourceProperty("databaseName", data.getDatabase());
