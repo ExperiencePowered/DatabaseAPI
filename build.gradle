@@ -1,5 +1,4 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'maven-publish'
     id 'java'
 }
@@ -10,10 +9,6 @@ version = '1.0-SNAPSHOT'
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = group
-            artifactId = 'databaseapi'
-            version = '1.0-SNAPSHOT'
-
             from components.java
         }
     }
