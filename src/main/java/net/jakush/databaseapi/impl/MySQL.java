@@ -17,9 +17,6 @@ import org.jetbrains.annotations.NotNull;
 public final class MySQL extends Database {
 
     public MySQL(final @NotNull DatabaseData data) {
-        final ClassLoader classLoader = getClass().getClassLoader();
-        Bukkit.getLogger().info("ClassLoader: " + classLoader);
-        Bukkit.getLogger().info("ClassLoader Name " + classLoader.getName());
         HikariSetupUtil.setupHikariData(hikari, data);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
