@@ -57,13 +57,13 @@ public final class MySQL extends Database {
                             .name()
                             .replace("_", "")
                     );
-                    if (property.type().getSize() == -1) propertiesString
+                    if (property.type().getSize() != -1) propertiesString
                             .append("(")
                             .append(property
                                     .type()
                                     .getSize())
                             .append(")");
-            if (i == expectedSize - 1) {
+            if (i != expectedSize - 1) {
                 propertiesString
                         .append(", ");
             }
