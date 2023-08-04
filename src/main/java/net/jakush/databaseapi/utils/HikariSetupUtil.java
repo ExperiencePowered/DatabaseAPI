@@ -14,15 +14,15 @@ public class HikariSetupUtil {
 
     /**
      * Method to set up data source property for hikari
-     * @param hikari Hikari data source on which will be properties applied
-     * @param data Database data which contains all important information like password, host
+     * @param hikari Hikari credentials source on which will be properties applied
+     * @param credentials Database credentials which contain all important information like password, host
      */
-    public static void setupHikariData(final @NotNull HikariDataSource hikari, final @NotNull DatabaseCredentials data) {
-        hikari.addDataSourceProperty("serverName", data.getHost());
-        hikari.addDataSourceProperty("port", data.getPort());
-        hikari.addDataSourceProperty("databaseName", data.getDatabase());
+    public static void setupHikariData(final @NotNull HikariDataSource hikari, final @NotNull DatabaseCredentials credentials) {
+        hikari.addDataSourceProperty("serverName", credentials.getHost());
+        hikari.addDataSourceProperty("port", credentials.getPort());
+        hikari.addDataSourceProperty("databaseName", credentials.getDatabase());
         hikari.addDataSourceProperty("maximumPoolSize", 4);
-        if (data.getUsername().isPresent()) hikari.addDataSourceProperty("user", data.getUsername().get());
-        if (data.getPassword().isPresent()) hikari.addDataSourceProperty("password", data.getPassword().get());
+        if (credentials.getUsername().isPresent()) hikari.addDataSourceProperty("user", credentials.getUsername().get());
+        if (credentials.getPassword().isPresent()) hikari.addDataSourceProperty("password", credentials.getPassword().get());
     }
 }

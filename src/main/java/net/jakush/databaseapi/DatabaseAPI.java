@@ -27,7 +27,8 @@ public final class DatabaseAPI {
         try {
             constructor = clazz.getDeclaredConstructor(DatabaseCredentials.class);
             database = (Database) constructor.newInstance(data);
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+        }
+        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
         if (plugin != null) {

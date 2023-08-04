@@ -10,8 +10,8 @@ import net.jakush.databaseapi.interfaces.Database;
  */
 public enum DatabaseType {
 
-    MySQL(net.jakush.databaseapi.impl.MySQL.class),
-    NON_SUPPORTED(net.jakush.databaseapi.impl.Unknown.class),
+    MySQL(net.jakush.databaseapi.databasetype.mysql.MySQL.class),
+    NON_SUPPORTED(net.jakush.databaseapi.databasetype.unknown.Unknown.class),
     ;
 
     private final Class<? extends Database> clazz;
