@@ -1,6 +1,7 @@
 package net.jakush.databaseapi.serializers;
 
 import net.jakush.databaseapi.enums.DataType;
+import net.jakush.databaseapi.exceptions.PropertySerializationException;
 import net.jakush.databaseapi.interfaces.DatabaseProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,12 @@ import java.util.stream.IntStream;
  */
 public class DatabasePropertySerializer {
 
+    /**
+     * Converts a property list to String
+     * @param propertyList list with properties
+     * @param braces if on start and on end should be braces - ()
+     * @return deserialized string
+     */
     public static @NotNull String deserialize(final @NotNull List<DatabaseProperty> propertyList, boolean braces) {
         StringBuilder propertiesString = new StringBuilder();
         int expectedSize = propertyList.size();
@@ -47,11 +54,19 @@ public class DatabasePropertySerializer {
         return propertiesString.toString();
     }
 
-    public static @NotNull List<DatabaseProperty> serialize(final @NotNull List<String> list) {
+    /**
+     * Converts a list to a property list
+     * @param list list which should be converted
+     * @return serialized list
+     */
+    public static @NotNull List<DatabaseProperty> serialize(final @NotNull List<String> list) throws PropertySerializationException {
         final List<DatabaseProperty> propertyList = new ArrayList<>();
 
         list.forEach(string -> {
             String[] array = string.split(" ");
+            if (array.length > 2) {
+                throw new PropertySerializationException("Invalid property.");
+            }
             String name = array[0];
             DataType type = DataType.valueOf(array[1]);
 
