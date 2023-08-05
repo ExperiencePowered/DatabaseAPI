@@ -49,7 +49,7 @@ public class InsertCommandImpl implements InsertCommand.Builder {
         final String base = "INSERT INTO ";
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(base)
-                .setTable("", table, true)
+                .setTable("", table, true, true)
                 .setValues(values);
         return new InsertCommand() {
             @Override

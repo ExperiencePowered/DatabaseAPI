@@ -45,7 +45,7 @@ public class UpdateCommandImpl implements UpdateCommand.Builder {
 
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.UPDATE)
-                .setTable("", table, false)
+                .setTable("", table, false, false)
                 .setUpdate(updateSet)
                 .setCondition(condition);
 

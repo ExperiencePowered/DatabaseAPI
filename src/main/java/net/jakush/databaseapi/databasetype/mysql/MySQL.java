@@ -7,12 +7,13 @@ import net.jakush.databaseapi.exceptions.QueryInitializationException;
 import net.jakush.databaseapi.interfaces.Database;
 import net.jakush.databaseapi.interfaces.DatabaseCredentials;
 import net.jakush.databaseapi.interfaces.DatabaseProperty;
-import net.jakush.databaseapi.interfaces.commandtypes.SnapshotCommand;
 import net.jakush.databaseapi.interfaces.commandtypes.QueryCommand;
+import net.jakush.databaseapi.interfaces.commandtypes.SnapshotCommand;
 import net.jakush.databaseapi.interfaces.query.Query;
 import net.jakush.databaseapi.interfaces.query.QueryMetaData;
 import net.jakush.databaseapi.interfaces.query.impl.QueryImpl;
 import net.jakush.databaseapi.serializers.DatabasePropertySerializer;
+import net.jakush.databaseapi.utils.DatabaseCommandBuilder;
 import net.jakush.databaseapi.utils.HikariSetupUtil;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
@@ -57,15 +58,28 @@ public final class MySQL extends Database {
                 .append(flag
                         .name()
                         .replace("_", " ")
-                )
-                .append(" "));
+                ));
 
         String propertiesString = DatabasePropertySerializer.deserialize(propertyList, true);
 
         Database.propertyList.put(table, propertyList);
-        String create = "CREATE TABLE " + flagString + table + " " + propertiesString;
-        Bukkit.getLogger().info(create);
-        return true;
+        DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
+                .setBase("CREATE TABLE " + flagString)
+                .setTable("", table, propertyList);
+        SnapshotCommand createTable = new SnapshotCommand() {
+            @Contract(pure = true)
+            @Override
+            public @NotNull String getCommand() {
+                return commandBuilder.toString();
+            }
+
+            @Contract(pure = true)
+            @Override
+            public @NotNull String getTable() {
+                return table;
+            }
+        };
+        return runStatement(createTable);
     }
 
     @Contract(pure = true)

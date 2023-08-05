@@ -38,7 +38,7 @@ public class DeleteCommandImpl implements DeleteCommand.Builder {
 
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.DELETE_FROM)
-                .setTable("", table, false)
+                .setTable("", table, false, false)
                 .setCondition(where);
 
         return new DeleteCommand() {

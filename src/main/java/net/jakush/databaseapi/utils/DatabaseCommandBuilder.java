@@ -2,10 +2,13 @@ package net.jakush.databaseapi.utils;
 
 import net.jakush.databaseapi.enums.CommandType;
 import net.jakush.databaseapi.interfaces.Database;
+import net.jakush.databaseapi.interfaces.DatabaseProperty;
 import net.jakush.databaseapi.interfaces.SnapshotCondition;
 import net.jakush.databaseapi.serializers.DatabasePropertySerializer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * This file is a part of DatabaseAPI <br>
@@ -33,9 +36,15 @@ public class DatabaseCommandBuilder {
         return this;
     }
 
-    public DatabaseCommandBuilder setTable(final @NotNull String type, final @NotNull String table, final boolean properties) {
+    public DatabaseCommandBuilder setTable(final @NotNull String type, final @NotNull String table, final @NotNull List<DatabaseProperty> properties) {
         builder.append(type).append(" ").append(table);
-        if (properties) builder.append(" ").append(DatabasePropertySerializer.deserialize(Database.getProperties(table), true));
+        builder.append(" ").append(DatabasePropertySerializer.deserialize(properties, true));
+        return this;
+    }
+
+    public DatabaseCommandBuilder setTable(final @NotNull String type, final @NotNull String table, final boolean properties, final boolean braces) {
+        builder.append(type).append(" ").append(table);
+        if (properties) builder.append(" ").append(DatabasePropertySerializer.deserialize(Database.getProperties(table), braces));
         return this;
     }
 
