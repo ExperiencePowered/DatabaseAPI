@@ -68,7 +68,7 @@ public class DatabasePropertySerializer {
                 throw new PropertySerializationException("Invalid property.");
             }
             String name = array[0];
-            DataType type = DataType.valueOf(array[1]);
+            DataType type = DataType.valueOf(array[1].toUpperCase());
 
             propertyList.add(new DatabaseProperty(name, type));
         });
