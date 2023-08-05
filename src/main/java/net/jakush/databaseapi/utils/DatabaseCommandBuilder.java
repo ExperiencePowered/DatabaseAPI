@@ -54,7 +54,7 @@ public class DatabaseCommandBuilder {
     }
 
     public DatabaseCommandBuilder setCondition(final @NotNull SnapshotCondition condition) {
-        builder.append("WHERE ").append(condition);
+        builder.append(" ").append(condition);
         return this;
     }
 

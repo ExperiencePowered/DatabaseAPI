@@ -35,7 +35,7 @@ public class SelectCommandImpl implements SelectCommand.Builder {
 
     @Override
     public SelectCommand.Builder setWhich(final @NotNull List<DatabaseProperty> tableProperties) {
-        this.which = DatabasePropertySerializer.deserialize(tableProperties, true);
+        this.which = DatabasePropertySerializer.deserialize(tableProperties, false);
         return this;
     }
 
@@ -52,7 +52,7 @@ public class SelectCommandImpl implements SelectCommand.Builder {
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.SELECT)
                 .setWhich(which)
-                .setTable("FROM", table, false, false)
+                .setTable(" FROM", table, false, false)
                 .setCondition(where);
 
         return new SelectCommand() {
