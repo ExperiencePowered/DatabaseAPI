@@ -60,7 +60,7 @@ public final class MySQL extends Database {
                         .replace("_", " ")
                 ));
 
-        String propertiesString = DatabasePropertySerializer.deserialize(propertyList, true);
+        String propertiesString = DatabasePropertySerializer.deserialize(propertyList, true, true);
 
         Database.propertyList.put(table, propertyList);
         DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
