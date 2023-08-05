@@ -44,7 +44,7 @@ public class InsertCommandImpl implements InsertCommand.Builder {
 
     @Override
     public SnapshotCommand build() {
-        Objects.requireNonNull(table);
+        Objects.requireNonNull(table, "Table was not set!");
 
         final String base = "INSERT INTO ";
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()

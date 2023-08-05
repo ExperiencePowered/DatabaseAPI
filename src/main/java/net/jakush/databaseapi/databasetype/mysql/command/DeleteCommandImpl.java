@@ -34,7 +34,7 @@ public class DeleteCommandImpl implements DeleteCommand.Builder {
 
     @Override
     public SnapshotCommand build() {
-        Objects.requireNonNull(table);
+        Objects.requireNonNull(table, "Table was not set!");
 
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.DELETE_FROM)

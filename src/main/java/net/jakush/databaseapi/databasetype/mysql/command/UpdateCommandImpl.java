@@ -41,7 +41,7 @@ public class UpdateCommandImpl implements UpdateCommand.Builder {
 
     @Override
     public SnapshotCommand build() {
-        Objects.requireNonNull(table);
+        Objects.requireNonNull(table, "Table was not set!");
 
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.UPDATE)

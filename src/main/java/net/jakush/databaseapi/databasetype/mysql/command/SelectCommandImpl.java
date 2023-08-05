@@ -47,7 +47,7 @@ public class SelectCommandImpl implements SelectCommand.Builder {
 
     @Override
     public SnapshotCommand build() {
-        Objects.requireNonNull(table);
+        Objects.requireNonNull(table, "Table was not set!");
 
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.SELECT)
