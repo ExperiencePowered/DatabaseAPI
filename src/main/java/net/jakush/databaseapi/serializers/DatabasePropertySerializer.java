@@ -23,7 +23,18 @@ public class DatabasePropertySerializer {
      * @param braces if on start and on end should be braces - ()
      * @return deserialized string
      */
-    public static @NotNull String deserialize(final @NotNull List<DatabaseProperty> propertyList, boolean braces) {
+    public static @NotNull String deserialize(final @NotNull List<DatabaseProperty> propertyList, final boolean braces) {
+        return deserialize(propertyList, braces, false);
+    }
+
+    /**
+     * Converts a property list to String
+     * @param propertyList list with properties
+     * @param braces if on start and on end should be braces - ()
+     * @param addSize when adding, for example - CHAR, addSize=true will add to that its size, so it will be like this - CHAR(255)
+     * @return deserialized string
+     */
+    public static @NotNull String deserialize(final @NotNull List<DatabaseProperty> propertyList, final boolean braces, final boolean addSize) {
         StringBuilder propertiesString = new StringBuilder();
         int expectedSize = propertyList.size();
 
@@ -38,7 +49,7 @@ public class DatabasePropertySerializer {
                             .name()
                             .replace("_", "")
                     );
-            if (property.type().getSize() != -1) propertiesString
+            if (addSize && property.type().getSize() != -1) propertiesString
                     .append("(")
                     .append(property
                             .type()
