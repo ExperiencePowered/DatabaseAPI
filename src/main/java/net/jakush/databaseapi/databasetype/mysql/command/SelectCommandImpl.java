@@ -52,7 +52,7 @@ public class SelectCommandImpl implements SelectCommand.Builder {
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.SELECT)
                 .setWhich(which)
-                .setTable(" FROM", table, false, false)
+                .setTable("FROM", table, false, false)
                 .setCondition(where);
 
         return new SelectCommand() {

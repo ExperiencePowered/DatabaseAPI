@@ -32,7 +32,7 @@ public class DatabaseCommandBuilder {
     }
 
     public DatabaseCommandBuilder setBase(final @NotNull String base) {
-        builder.append(base);
+        builder.append(base).append(" ");
         return this;
     }
 
@@ -43,7 +43,7 @@ public class DatabaseCommandBuilder {
     }
 
     public DatabaseCommandBuilder setTable(final @NotNull String type, final @NotNull String table, final boolean properties, final boolean braces) {
-        builder.append(type).append(" ").append(table);
+        builder.append(" ").append(type).append(" ").append(table);
         if (properties) builder.append(" ").append(DatabasePropertySerializer.deserialize(Database.getProperties(table), braces));
         return this;
     }
