@@ -28,8 +28,7 @@ public class DatabasePropertySerializer {
 
         IntStream.range(0, expectedSize).forEach(i -> {
             final DatabaseProperty property = propertyList.get(i);
-            builder.append(property.name())
-                    .append(" ");
+            builder.append(property.name());
             if (i != expectedSize - 1) {
                 builder.append(", ");
             }

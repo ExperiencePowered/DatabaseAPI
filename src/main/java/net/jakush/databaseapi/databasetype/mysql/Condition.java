@@ -17,8 +17,8 @@ public class Condition implements SnapshotCondition {
 
     private final StringBuilder builder;
 
-    public Condition(final @NotNull String columnLabel, final @Nullable String operator, final @NotNull String equalsTo) {
-        this.builder = new StringBuilder("WHERE ");
+    public Condition(final @NotNull ConditionType type, final @NotNull String columnLabel, final @Nullable String operator, final @NotNull String equalsTo) {
+        this.builder = new StringBuilder(type.name() + " ");
         addCondition(builder, columnLabel, operator, equalsTo);
     }
 

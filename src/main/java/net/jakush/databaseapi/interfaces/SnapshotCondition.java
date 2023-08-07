@@ -1,6 +1,7 @@
 package net.jakush.databaseapi.interfaces;
 
 import net.jakush.databaseapi.databasetype.mysql.Condition;
+import net.jakush.databaseapi.databasetype.mysql.ConditionType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,13 +32,12 @@ public interface SnapshotCondition {
 
     String toString();
 
-    @Contract("_, _ -> new")
-    static @NotNull Condition getInstance(final @NotNull String columnLabel, final @NotNull String equalsTo) {
-        return new Condition(columnLabel, null, equalsTo);
+    static @NotNull Condition getInstance(final @NotNull ConditionType type, final @NotNull String columnLabel, final @NotNull String equalsTo) {
+        return new Condition(type, columnLabel, null, equalsTo);
     }
 
     @Contract("_, _, _ -> new")
     static @NotNull Condition getInstance(final @NotNull String columnLabel, final @Nullable String operator, final @NotNull String equalsTo) {
-        return new Condition(columnLabel, operator, equalsTo);
+        return new Condition(ConditionType.WHERE, columnLabel, operator, equalsTo);
     }
 }
