@@ -60,7 +60,7 @@ public final class MySQL extends Database {
         Database.propertyList.put(table, propertyList);
         DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase("CREATE TABLE " + flagString)
-                .setTable("", table, propertyList);
+                .setTable(null, table, propertyList);
         SnapshotCommand createTable = new SnapshotCommand() {
             @Contract(pure = true)
             @Override

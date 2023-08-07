@@ -30,6 +30,9 @@ public class DatabasePropertySerializer {
             final DatabaseProperty property = propertyList.get(i);
             builder.append(property.name())
                     .append(" ");
+            if (i != expectedSize - 1) {
+                builder.append(", ");
+            }
         });
 
         return builder.toString();

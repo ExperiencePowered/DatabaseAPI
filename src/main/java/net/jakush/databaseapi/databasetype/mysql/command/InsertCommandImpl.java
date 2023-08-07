@@ -20,6 +20,7 @@ public class InsertCommandImpl implements InsertCommand {
 
     private String table;
     private String values;
+    private List<DatabaseProperty> tableProperties;
 
     @Override
     public String getTable() {
@@ -35,7 +36,7 @@ public class InsertCommandImpl implements InsertCommand {
 
     @Override
     public InsertCommand setProperties(final @NotNull List<DatabaseProperty> tableProperties) {
-
+        this.tableProperties = tableProperties;
         return this;
     }
 
@@ -61,8 +62,8 @@ public class InsertCommandImpl implements InsertCommand {
 
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.INSERT_INTO)
-                .setTable(null, table, true)
-                .setValues(values);
+                .setTable(null, table, true, tableProperties)
+                .setValues("VALUES " + values);
 
         return commandBuilder.toString();
     }

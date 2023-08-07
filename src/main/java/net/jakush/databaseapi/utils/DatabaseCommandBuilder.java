@@ -38,9 +38,10 @@ public class DatabaseCommandBuilder {
         return this;
     }
 
-    public DatabaseCommandBuilder setTable(final @NotNull String type, final @NotNull String table, final @NotNull List<DatabaseProperty> properties) {
-        builder.append(type).append(" ").append(table);
-        builder.append(" ").append(DatabasePropertySerializer.deserialize(properties, true));
+    public DatabaseCommandBuilder setTable(final @Nullable String type, final @NotNull String table, final @NotNull List<DatabaseProperty> propertyList) {
+        if (type != null && !type.isEmpty()) builder.append(" ").append(type);
+        builder.append(" ").append(table);
+        builder.append(" ").append(DatabasePropertySerializer.deserialize(propertyList, true));
         return this;
     }
 
@@ -50,6 +51,15 @@ public class DatabaseCommandBuilder {
         if (properties) builder.append(" ").append(DatabasePropertySerializer.deserializeToColumns(Database.getProperties(table)));
         return this;
     }
+
+    public DatabaseCommandBuilder setTable(final @Nullable String type, final @NotNull String table, final boolean properties, final @Nullable List<DatabaseProperty> propertyList) {
+        final var finalPropertyList = propertyList == null ? Database.getProperties(table) : propertyList;
+        if (type != null && !type.isEmpty()) builder.append(" ").append(type);
+        builder.append(" ").append(table);
+        if (properties) builder.append(" ").append(DatabasePropertySerializer.deserializeToColumns(finalPropertyList));
+        return this;
+    }
+
 
     public DatabaseCommandBuilder setValues(final @NotNull String values) {
         builder.append(" ").append(values);
