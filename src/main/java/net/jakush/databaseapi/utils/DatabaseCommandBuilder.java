@@ -56,7 +56,7 @@ public class DatabaseCommandBuilder {
         final var finalPropertyList = propertyList == null ? Database.getProperties(table) : propertyList;
         if (type != null && !type.isEmpty()) builder.append(" ").append(type);
         builder.append(" ").append(table);
-        if (properties) builder.append(" ").append(DatabasePropertySerializer.deserializeToColumns(finalPropertyList));
+        if (properties) builder.append(" ").append(DatabasePropertySerializer.deserialize(finalPropertyList, true));
         return this;
     }
 
@@ -77,7 +77,7 @@ public class DatabaseCommandBuilder {
     }
 
     public DatabaseCommandBuilder setUpdateSet(final @NotNull SnapshotCondition updateSet) {
-        builder.append(" SET ").append(updateSet);
+        builder.append(" ").append(updateSet);
         return this;
     }
 
