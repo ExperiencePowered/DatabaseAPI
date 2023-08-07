@@ -56,7 +56,7 @@ public class DatabaseCommandBuilder {
         final var finalPropertyList = propertyList == null ? Database.getProperties(table) : propertyList;
         if (type != null && !type.isEmpty()) builder.append(" ").append(type);
         builder.append(" ").append(table);
-        if (properties) builder.append(" ").append(DatabasePropertySerializer.deserialize(finalPropertyList, true));
+        if (properties) builder.append(" ").append(DatabasePropertySerializer.deserializeToColumnsWithBraces(finalPropertyList));
         return this;
     }
 

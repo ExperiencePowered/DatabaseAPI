@@ -18,6 +18,15 @@ import java.util.stream.IntStream;
 public class DatabasePropertySerializer {
 
     /**
+     * Converts a property list to String (just columns) with braces
+     * @param propertyList list with properties
+     * @return deserialized string
+     */
+    public static @NotNull String deserializeToColumnsWithBraces(final @NotNull List<DatabaseProperty> propertyList) {
+        return "(" + deserializeToColumns(propertyList) + ")";
+    }
+
+    /**
      * Converts a property list to String (just columns)
      * @param propertyList list with properties
      * @return deserialized string
