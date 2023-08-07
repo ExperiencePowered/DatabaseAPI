@@ -1,6 +1,6 @@
 package net.jakush.databaseapi.interfaces.query;
 
-import net.jakush.databaseapi.enums.CommandType;
+import net.jakush.databaseapi.databasetype.mysql.CommandType;
 
 import java.util.function.Consumer;
 

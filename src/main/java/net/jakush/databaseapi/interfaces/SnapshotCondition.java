@@ -28,6 +28,7 @@ public interface SnapshotCondition {
      * @return condition (to make value-chain possible)
      */
     Condition addCondition(final @NotNull String columnLabel, final @Nullable String operator, final @NotNull String equalsTo);
+
     String toString();
 
     @Contract("_, _ -> new")

@@ -1,11 +1,9 @@
 package net.jakush.databaseapi.databasetype.mysql.command;
 
-import net.jakush.databaseapi.enums.CommandType;
+import net.jakush.databaseapi.databasetype.mysql.CommandType;
 import net.jakush.databaseapi.interfaces.DatabaseProperty;
 import net.jakush.databaseapi.interfaces.SnapshotCondition;
 import net.jakush.databaseapi.interfaces.commandtypes.SelectCommand;
-import net.jakush.databaseapi.interfaces.commandtypes.SnapshotCommand;
-import net.jakush.databaseapi.interfaces.commandtypes.UpdateCommand;
 import net.jakush.databaseapi.interfaces.query.Query;
 import net.jakush.databaseapi.interfaces.query.impl.QueryImpl;
 import net.jakush.databaseapi.serializers.DatabasePropertySerializer;
@@ -19,57 +17,58 @@ import java.util.Objects;
  * This file is a part of DatabaseAPI <br>
  * Author: <a href="https://github.com/Jakush">Jakush</a><br>
  * <br>
- * Impl for {@link SelectCommand.Builder}
+ * Impl for {@link SelectCommand}
  */
-public class SelectCommandImpl implements SelectCommand.Builder {
+public class SelectCommandImpl implements SelectCommand {
 
+    private final Query query;
     private String table;
-    private String which;
+    private String properties;
     private SnapshotCondition where;
 
+    public SelectCommandImpl() {
+        this.query = new QueryImpl();
+    }
+
     @Override
-    public SnapshotCommand.Builder setTable(final @NotNull String table) {
+    public String getTable() {
+        Objects.requireNonNull(table, "Table name was null when accessing it.");
+        return table;
+    }
+
+    @Override
+    public SelectCommand setTable(final @NotNull String table) {
         this.table = table;
         return this;
     }
 
     @Override
-    public SelectCommand.Builder setWhich(final @NotNull List<DatabaseProperty> tableProperties) {
-        this.which = DatabasePropertySerializer.deserialize(tableProperties, false);
+    public SelectCommand setProperties(final @NotNull List<DatabaseProperty> tableProperties) {
+        this.properties = DatabasePropertySerializer.deserializeToColumns(tableProperties);
         return this;
     }
 
     @Override
-    public SelectCommand.Builder setCondition(final @NotNull SnapshotCondition condition) {
+    public SelectCommand setCondition(final @NotNull SnapshotCondition condition) {
         this.where = condition;
         return this;
     }
 
     @Override
-    public SnapshotCommand build() {
+    public Query getQuery() {
+        return query;
+    }
+
+    @Override
+    public String toString() {
         Objects.requireNonNull(table, "Table was not set!");
 
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase(CommandType.SELECT)
-                .setWhich(which)
-                .setTable("FROM", table, false, false)
+                .setWhich(properties)
+                .setTable("FROM", table, false)
                 .setCondition(where);
 
-        return new SelectCommand() {
-            @Override
-            public Query getQuery() {
-                return new QueryImpl();
-            }
-
-            @Override
-            public String getCommand() {
-                return commandBuilder.toString();
-            }
-
-            @Override
-            public String getTable() {
-                return table;
-            }
-        };
+        return commandBuilder.toString();
     }
 }

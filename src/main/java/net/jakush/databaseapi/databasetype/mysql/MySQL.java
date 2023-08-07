@@ -1,6 +1,5 @@
 package net.jakush.databaseapi.databasetype.mysql;
 
-import net.jakush.databaseapi.enums.CommandType;
 import net.jakush.databaseapi.enums.DatabaseType;
 import net.jakush.databaseapi.enums.TableFlags;
 import net.jakush.databaseapi.exceptions.QueryInitializationException;
@@ -12,10 +11,8 @@ import net.jakush.databaseapi.interfaces.commandtypes.SnapshotCommand;
 import net.jakush.databaseapi.interfaces.query.Query;
 import net.jakush.databaseapi.interfaces.query.QueryMetaData;
 import net.jakush.databaseapi.interfaces.query.impl.QueryImpl;
-import net.jakush.databaseapi.serializers.DatabasePropertySerializer;
 import net.jakush.databaseapi.utils.DatabaseCommandBuilder;
 import net.jakush.databaseapi.utils.HikariSetupUtil;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,8 +57,6 @@ public final class MySQL extends Database {
                         .replace("_", " ")
                 ));
 
-        String propertiesString = DatabasePropertySerializer.deserialize(propertyList, true, true);
-
         Database.propertyList.put(table, propertyList);
         DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase("CREATE TABLE " + flagString)
@@ -69,11 +64,10 @@ public final class MySQL extends Database {
         SnapshotCommand createTable = new SnapshotCommand() {
             @Contract(pure = true)
             @Override
-            public @NotNull String getCommand() {
+            public @NotNull String toString() {
                 return commandBuilder.toString();
             }
 
-            @Contract(pure = true)
             @Override
             public @NotNull String getTable() {
                 return table;
@@ -84,18 +78,18 @@ public final class MySQL extends Database {
 
     @Contract(pure = true)
     @Override
-    public SnapshotCommand createStatement(final @NotNull CommandType type, final @NotNull Consumer<SnapshotCommand.Builder> consumer) {
-        Constructor<? extends SnapshotCommand.Builder> constructor;
-        SnapshotCommand.Builder commandBuilder;
+    public SnapshotCommand createStatement(final @NotNull CommandType type, final @NotNull Consumer<SnapshotCommand> consumer) {
+        final Constructor<? extends SnapshotCommand> constructor;
+        final SnapshotCommand command;
         try {
-            constructor = type.getBuilderClass().getDeclaredConstructor();
-            commandBuilder = constructor.newInstance();
+            constructor = type.getClazz().getDeclaredConstructor();
+            command = constructor.newInstance();
         }
         catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        consumer.accept(commandBuilder);
-        return commandBuilder.build();
+        consumer.accept(command);
+        return command;
     }
 
     @Override
@@ -103,7 +97,7 @@ public final class MySQL extends Database {
         if (statement instanceof QueryCommand) {
             throw new QueryInitializationException("Cannot execute query on `runStatement` method, use runQuery instead.");
         }
-        try (final Connection connection = hikari.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(statement.getCommand())) {
+        try (final Connection connection = hikari.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(statement.toString())) {
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
@@ -115,10 +109,10 @@ public final class MySQL extends Database {
 
     @Override
     public boolean runQuery(final @NotNull QueryCommand statement, final @NotNull Consumer<Query> consumer) {
-        try (final Connection connection = hikari.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(statement.getCommand())) {
-            ResultSet rs = preparedStatement.executeQuery();
-            Query query = statement.getQuery();
-            QueryMetaData meta = query.getMetaData();
+        try (final Connection connection = hikari.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(statement.toString())) {
+            final ResultSet rs = preparedStatement.executeQuery();
+            final Query query = statement.getQuery();
+            final QueryMetaData meta = query.getMetaData();
 
             while (rs.next()) {
                 final Map<String, Object> row = new HashMap<>();

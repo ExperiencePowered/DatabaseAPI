@@ -1,7 +1,8 @@
 package net.jakush.databaseapi.databasetype.mysql.command;
 
+import net.jakush.databaseapi.databasetype.mysql.CommandType;
+import net.jakush.databaseapi.interfaces.DatabaseProperty;
 import net.jakush.databaseapi.interfaces.commandtypes.InsertCommand;
-import net.jakush.databaseapi.interfaces.commandtypes.SnapshotCommand;
 import net.jakush.databaseapi.utils.DatabaseCommandBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,21 +14,33 @@ import java.util.stream.IntStream;
  * This file is a part of DatabaseAPI <br>
  * Author: <a href="https://github.com/Jakush">Jakush</a><br>
  * <br>
- * Impl for {@link InsertCommand.Builder}
+ * Impl for {@link InsertCommand}
  */
-public class InsertCommandImpl implements InsertCommand.Builder {
+public class InsertCommandImpl implements InsertCommand {
 
     private String table;
     private String values;
 
     @Override
-    public InsertCommand.Builder setTable(final @NotNull String table) {
+    public String getTable() {
+        Objects.requireNonNull(table, "Table name was null when accessing it.");
+        return table;
+    }
+
+    @Override
+    public InsertCommand setTable(final @NotNull String table) {
         this.table = table;
         return this;
     }
 
     @Override
-    public InsertCommand.Builder setValues(final @NotNull List<String> valueList) {
+    public InsertCommand setProperties(final @NotNull List<DatabaseProperty> tableProperties) {
+
+        return this;
+    }
+
+    @Override
+    public InsertCommand setValues(final @NotNull List<String> valueList) {
         final StringBuilder valueString = new StringBuilder();
         final int expectedSize = valueList.size();
         valueString.append("(");
@@ -43,24 +56,14 @@ public class InsertCommandImpl implements InsertCommand.Builder {
     }
 
     @Override
-    public SnapshotCommand build() {
+    public String toString() {
         Objects.requireNonNull(table, "Table was not set!");
 
-        final String base = "INSERT INTO ";
         final DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
-                .setBase(base)
-                .setTable("", table, true, true)
+                .setBase(CommandType.INSERT_INTO)
+                .setTable(null, table, true)
                 .setValues(values);
-        return new InsertCommand() {
-            @Override
-            public String getCommand() {
-                return commandBuilder.toString();
-            }
 
-            @Override
-            public String getTable() {
-                return table;
-            }
-        };
+        return commandBuilder.toString();
     }
 }

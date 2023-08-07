@@ -1,6 +1,6 @@
 package net.jakush.databaseapi.databasetype.unknown;
 
-import net.jakush.databaseapi.enums.CommandType;
+import net.jakush.databaseapi.databasetype.mysql.CommandType;
 import net.jakush.databaseapi.enums.DatabaseType;
 import net.jakush.databaseapi.enums.TableFlags;
 import net.jakush.databaseapi.interfaces.Database;
@@ -44,7 +44,7 @@ public final class Unknown extends Database {
     }
 
     @Override
-    public SnapshotCommand createStatement(final @NotNull CommandType type, final @NotNull Consumer<SnapshotCommand.Builder> consumer) {
+    public SnapshotCommand createStatement(final @NotNull CommandType type, final @NotNull Consumer<SnapshotCommand> consumer) {
         throw new UnsupportedOperationException("This database type is not implemented.");
     }
 

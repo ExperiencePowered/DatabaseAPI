@@ -18,6 +18,24 @@ import java.util.stream.IntStream;
 public class DatabasePropertySerializer {
 
     /**
+     * Converts a property list to String (just columns)
+     * @param propertyList list with properties
+     * @return deserialized string
+     */
+    public static @NotNull String deserializeToColumns(final @NotNull List<DatabaseProperty> propertyList) {
+        final StringBuilder builder = new StringBuilder();
+        final int expectedSize = propertyList.size();
+
+        IntStream.range(0, expectedSize).forEach(i -> {
+            final DatabaseProperty property = propertyList.get(i);
+            builder.append(property.name())
+                    .append(" ");
+        });
+
+        return builder.toString();
+    }
+
+    /**
      * Converts a property list to String
      * @param propertyList list with properties
      * @param braces if on start and on end should be braces - ()
@@ -35,34 +53,31 @@ public class DatabasePropertySerializer {
      * @return deserialized string
      */
     public static @NotNull String deserialize(final @NotNull List<DatabaseProperty> propertyList, final boolean braces, final boolean addSize) {
-        StringBuilder propertiesString = new StringBuilder();
-        int expectedSize = propertyList.size();
+        final StringBuilder builder = new StringBuilder();
+        final int expectedSize = propertyList.size();
 
-        if (braces) propertiesString.append("(");
+        if (braces) builder.append("(");
         IntStream.range(0, expectedSize).forEach(i -> {
-            DatabaseProperty property = propertyList.get(i);
-            propertiesString
-                    .append(property.name())
+            final DatabaseProperty property = propertyList.get(i);
+            builder.append(property.name())
                     .append(" ")
                     .append(property
                             .type()
                             .name()
                             .replace("_", "")
                     );
-            if (addSize && property.type().getSize() != -1) propertiesString
-                    .append("(")
+            if (addSize && property.type().getSize() != -1) builder.append("(")
                     .append(property
                             .type()
                             .getSize())
                     .append(")");
             if (i != expectedSize - 1) {
-                propertiesString
-                        .append(", ");
+                builder.append(", ");
             }
         });
-        if (braces) propertiesString.append(")");
+        if (braces) builder.append(")");
 
-        return propertiesString.toString();
+        return builder.toString();
     }
 
     /**

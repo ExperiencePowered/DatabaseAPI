@@ -1,7 +1,7 @@
 package net.jakush.databaseapi.interfaces;
 
 import com.zaxxer.hikari.HikariDataSource;
-import net.jakush.databaseapi.enums.CommandType;
+import net.jakush.databaseapi.databasetype.mysql.CommandType;
 import net.jakush.databaseapi.enums.TableFlags;
 import net.jakush.databaseapi.exceptions.QueryInitializationException;
 import net.jakush.databaseapi.interfaces.commandtypes.SnapshotCommand;
@@ -64,7 +64,7 @@ public abstract class Database {
      * @param consumer consumer where you'll create the command
      * @return created statement
      */
-    public abstract SnapshotCommand createStatement(final @NotNull CommandType type, final @NotNull Consumer<SnapshotCommand.Builder> consumer);
+    public abstract SnapshotCommand createStatement(final @NotNull CommandType type, final @NotNull Consumer<SnapshotCommand> consumer);
 
     /**
      * Runs statement (in normal case created from {@link Database#createStatement(CommandType, Consumer)})
@@ -76,7 +76,7 @@ public abstract class Database {
 
     /**
      * Runs query (in normal case created from {@link #createStatement(CommandType, Consumer)})
-     * @param statement statement - the statement which will contain info about what to search in query
+     * @param statement statement - the statement which will contain info about what to search in the query
      * @param consumer consumer which will contain all data from ran {@link java.sql.ResultSet}
      * @return success (true if it was run successfully)
      */
