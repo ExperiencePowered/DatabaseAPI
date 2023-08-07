@@ -13,6 +13,7 @@ import net.jakush.databaseapi.interfaces.query.QueryMetaData;
 import net.jakush.databaseapi.interfaces.query.impl.QueryImpl;
 import net.jakush.databaseapi.utils.DatabaseCommandBuilder;
 import net.jakush.databaseapi.utils.HikariSetupUtil;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,6 +62,7 @@ public final class MySQL extends Database {
         DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase("CREATE TABLE " + flagString)
                 .setTable(null, table, propertyList);
+        Bukkit.getLogger().info("CommandBuilder: " + commandBuilder.toString());
         SnapshotCommand createTable = new SnapshotCommand() {
             @Contract(pure = true)
             @Override
