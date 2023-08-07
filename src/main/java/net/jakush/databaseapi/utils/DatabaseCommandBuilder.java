@@ -28,7 +28,8 @@ public class DatabaseCommandBuilder {
 
     public DatabaseCommandBuilder setBase(final @NotNull CommandType type) {
         builder.append(type.name()
-                .replace("_", " "));
+                .replace("_", " "))
+                .append(" ");
         return this;
     }
 
@@ -65,14 +66,19 @@ public class DatabaseCommandBuilder {
         return this;
     }
 
-    public DatabaseCommandBuilder setUpdate(final @NotNull SnapshotCondition updateSet) {
+    public DatabaseCommandBuilder setUpdateSet(final @NotNull SnapshotCondition updateSet) {
         builder.append("SET ").append(updateSet);
         return this;
     }
 
     @Override
     public String toString() {
-        return builder.append(";").toString();
+        String result = builder.append(";")
+                .toString();
+        result = result.trim()
+                .replaceAll("( +)", " ");
+
+        return result;
     }
 
     @Contract(value = " -> new", pure = true)
