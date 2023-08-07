@@ -41,7 +41,7 @@ public class DatabaseCommandBuilder {
     public DatabaseCommandBuilder setTable(final @Nullable String type, final @NotNull String table, final @NotNull List<DatabaseProperty> propertyList) {
         if (type != null && !type.isEmpty()) builder.append(" ").append(type);
         builder.append(" ").append(table);
-        builder.append(" ").append(DatabasePropertySerializer.deserialize(propertyList, true));
+        builder.append(" ").append(DatabasePropertySerializer.deserialize(propertyList, true,true));
         return this;
     }
 
