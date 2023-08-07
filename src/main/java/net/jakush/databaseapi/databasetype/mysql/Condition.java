@@ -23,8 +23,8 @@ public class Condition implements SnapshotCondition {
     }
 
     @Override
-    public Condition addCondition(final @NotNull String columnLabel, final @NotNull String equalsTo) {
-        return addCondition(columnLabel, null, equalsTo);
+    public Condition addCondition(final @NotNull String columnLabel, final @NotNull String value) {
+        return addCondition(columnLabel, null, value);
     }
 
     @Override

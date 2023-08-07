@@ -16,10 +16,10 @@ public interface SnapshotCondition {
     /**
      * Adds condition to builder
      * @param columnLabel label
-     * @param equalsTo equals to value
+     * @param value value
      * @return condition (to make value-chain possible)
      */
-    Condition addCondition(final @NotNull String columnLabel, final @NotNull String equalsTo);
+    Condition addCondition(final @NotNull String columnLabel, final @NotNull String value);
     /**
      * Adds condition to builder
      * @param columnLabel label
