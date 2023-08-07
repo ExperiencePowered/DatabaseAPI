@@ -1,4 +1,4 @@
-package net.jakush.databaseapi.enums;
+package net.jakush.databaseapi.databasetype.mysql;
 
 import net.jakush.databaseapi.databasetype.mysql.command.DeleteCommandImpl;
 import net.jakush.databaseapi.databasetype.mysql.command.InsertCommandImpl;
@@ -21,14 +21,14 @@ public enum CommandType {
     DELETE_FROM(DeleteCommandImpl.class),
     INSERT_INTO(InsertCommandImpl.class);
 
-    private final Class<? extends SnapshotCommand.Builder> builderClass;
+    private final Class<? extends SnapshotCommand> clazz;
 
-    CommandType(final @NotNull Class<? extends SnapshotCommand.Builder> builderClass) {
-        this.builderClass = builderClass;
+    CommandType(final @NotNull Class<? extends SnapshotCommand> clazz) {
+        this.clazz = clazz;
     }
 
-    public Class<? extends SnapshotCommand.Builder> getBuilderClass() {
-        return builderClass;
+    public Class<? extends SnapshotCommand> getClazz() {
+        return clazz;
     }
 
     @Contract(pure = true)
