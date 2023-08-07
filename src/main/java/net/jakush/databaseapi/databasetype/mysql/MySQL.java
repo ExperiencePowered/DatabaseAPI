@@ -11,9 +11,9 @@ import net.jakush.databaseapi.interfaces.commandtypes.SnapshotCommand;
 import net.jakush.databaseapi.interfaces.query.Query;
 import net.jakush.databaseapi.interfaces.query.QueryMetaData;
 import net.jakush.databaseapi.interfaces.query.impl.QueryImpl;
+import net.jakush.databaseapi.utils.BooleanUtils;
 import net.jakush.databaseapi.utils.DatabaseCommandBuilder;
 import net.jakush.databaseapi.utils.HikariSetupUtil;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -62,7 +62,6 @@ public final class MySQL extends Database {
         DatabaseCommandBuilder commandBuilder = DatabaseCommandBuilder.getInstance()
                 .setBase("CREATE TABLE " + flagString)
                 .setTable(null, table, propertyList);
-        Bukkit.getLogger().info("CommandBuilder: " + commandBuilder.toString());
         SnapshotCommand createTable = new SnapshotCommand() {
             @Contract(pure = true)
             @Override
@@ -99,7 +98,12 @@ public final class MySQL extends Database {
         if (statement instanceof QueryCommand) {
             throw new QueryInitializationException("Cannot execute query on `runStatement` method, use runQuery instead.");
         }
-        try (final Connection connection = hikari.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(statement.toString())) {
+
+        String string = statement.toString();
+        string = string.replace("true", String.valueOf(BooleanUtils.toInt(true)));
+        string = string.replace("false", String.valueOf(BooleanUtils.toInt(false)));
+
+        try (final Connection connection = hikari.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(string)) {
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
@@ -111,7 +115,11 @@ public final class MySQL extends Database {
 
     @Override
     public boolean runQuery(final @NotNull QueryCommand statement, final @NotNull Consumer<Query> consumer) {
-        try (final Connection connection = hikari.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(statement.toString())) {
+        String string = statement.toString();
+        string = string.replace("true", String.valueOf(BooleanUtils.toInt(true)));
+        string = string.replace("false", String.valueOf(BooleanUtils.toInt(false)));
+
+        try (final Connection connection = hikari.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(string)) {
             final ResultSet rs = preparedStatement.executeQuery();
             final Query query = statement.getQuery();
             final QueryMetaData meta = query.getMetaData();
@@ -119,8 +127,11 @@ public final class MySQL extends Database {
             while (rs.next()) {
                 final Map<String, Object> row = new HashMap<>();
                 for (int i = 1; i <= meta.getColumnCount(); i++) {
-                    String columnName = meta.getColumnName(i);
+                    final String columnName = meta.getColumnName(i);
                     Object value = query.getObject(i);
+                    if (Database.propertyList.get(statement.getTable()).get(meta.getColumnCount()).type().getClazz() == Boolean.class) {
+                        value = BooleanUtils.toInt((Boolean) value);
+                    }
 
                     row.put(columnName, value);
                 }
