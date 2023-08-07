@@ -67,7 +67,12 @@ public class DatabaseCommandBuilder {
     }
 
     public DatabaseCommandBuilder setUpdateSet(final @NotNull SnapshotCondition updateSet) {
-        builder.append("SET ").append(updateSet);
+        final String string = updateSet.toString();
+        final int index = string.indexOf("WHERE ");
+        if (index == -1) {
+            throw new IllegalStateException("Index is -1 which shouldn't happen, please report this.");
+        }
+        builder.append("SET ").append(string.substring(index));
         return this;
     }
 
